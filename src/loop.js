@@ -1,9 +1,9 @@
 import { buildSystemPrompt } from "./prompt.js";
 import { toolDefinitions, executeTool } from "./tools.js";
 
-// TODO: set the base URL and model for your OpenAI-compatible provider.
-const LLM_BASE_URL = "TODO";
-const LLM_MODEL = "TODO";
+// OpenCode Go's OpenAI-compatible endpoint and model.
+const LLM_BASE_URL = "https://opencode.ai/inference/go/openai/v1";
+const LLM_MODEL = "glm-5.3-flash";
 
 const LLM_TIMEOUT_MS = 20_000;
 const MAX_ROUNDS = 8;

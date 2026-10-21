@@ -1,8 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  CT_HUB_2,
   formatForecast,
   formatBusArrivals,
+  formatPlaces,
   haversineMetres,
 } from "../src/tools.js";
 
@@ -54,4 +56,26 @@ test("haversineMetres measures CT Hub 2 to Lavender MRT at under 600 m", () => {
   const lavenderMrt = { latitude: 1.3073, longitude: 103.8631 };
   const distance = haversineMetres(ctHub2, lavenderMrt);
   assert.ok(distance > 400 && distance < 550, `got ${distance}`);
+});
+
+test("formatPlaces drops places outside the radius", () => {
+  const places = [
+    {
+      displayName: { text: "Near" },
+      rating: 4.5,
+      location: { latitude: 1.3073, longitude: 103.8631 },
+    },
+    {
+      displayName: { text: "Bedok" },
+      rating: 4.9,
+      location: { latitude: 1.3236, longitude: 103.9273 },
+    },
+  ];
+
+  const result = formatPlaces(places, CT_HUB_2, 800);
+  assert.deepEqual(
+    result.map((p) => p.name),
+    ["Near"],
+  );
+  assert.ok(result[0].distance_m < 800);
 });
